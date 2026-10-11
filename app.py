@@ -2,6 +2,7 @@
 import datetime as dt
 import pathlib
 
+import altair as alt
 import pandas as pd
 import streamlit as st
 
@@ -221,6 +222,19 @@ if plants:
     r1, r2 = st.columns(2)
     r1.metric("Days outside", recap["days_outside"])
     r2.metric("Longest streak", recap["best_streak"])
+    grid = pd.DataFrame(garden.outdoor_calendar_grid(log, today))
+    chart = (
+        alt.Chart(grid)
+        .mark_rect(cornerRadius=2)
+        .encode(
+            x=alt.X("week:O", title=None, axis=alt.Axis(labels=False, ticks=False)),
+            y=alt.Y("weekday:O", sort=["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], title=None),
+            color=alt.Color("filled:Q", scale=alt.Scale(domain=[0, 1], range=["#ebedf0", "#2e7d32"]), legend=None),
+            tooltip=["date:N", alt.Tooltip("filled:Q", title="Checked in", format=".0f")],
+        )
+        .properties(height=130)
+    )
+    st.altair_chart(chart, use_container_width=True)
     for rp in recap["plants"]:
         st.write(f"**{rp['name']}** ({rp['crop']}) - day {rp['day']}, reached *{rp['stage']}*, "
                  f"{rp['checkins']} check-ins, {rp['waterings']} waterings, {rp['photos']} photos")
