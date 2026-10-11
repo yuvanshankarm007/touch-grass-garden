@@ -216,6 +216,15 @@ def test_bad_pack_is_rejected(tmp_path, monkeypatch):
         garden.load_crops("bad")
 
 
+def test_every_crop_pack_file_loads_without_errors():
+    import json
+    import pathlib
+    for pack_file in sorted(pathlib.Path(garden.PACK_DIR).glob("*.json")):
+        json.loads(pack_file.read_text(encoding="utf-8"))
+        if not pack_file.stem.startswith("_"):
+            garden.load_crops(pack_file.stem)
+
+
 def test_prepare_image_shrinks_large_photos():
     import io
     from PIL import Image
