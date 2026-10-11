@@ -78,9 +78,10 @@ st.caption("Streaks and goals only count when you log a check-in made at your pl
 
 # ---------------- weather ----------------
 weather, fetched_at, from_cache = garden.fetch_weather(lat, lon)
-alerts, window = [], None
+alerts, crop_alerts, window = [], [], None
 if weather:
     alerts = garden.weather_alerts(weather["daily"])
+    crop_alerts = garden.crop_weather_alerts(weather["daily"], plants, crops)
     window = garden.best_window(weather["hourly"], today)
     if from_cache:
         st.warning(f"Offline - using the forecast saved at {fetched_at}.")
@@ -94,6 +95,8 @@ st.write(f"**Season:** {season} _({system})_")
 if window:
     st.write(f"**Best time outside:** {window}")
 for a in alerts:
+    st.warning(a)
+for a in crop_alerts:
     st.warning(a)
 
 plants_info = []
