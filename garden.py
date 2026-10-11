@@ -2,8 +2,10 @@
 import base64
 import io
 import json
+import os
 import datetime as dt
 import pathlib
+import tempfile
 import uuid
 
 import requests
@@ -63,7 +65,19 @@ def load_log():
 
 
 def save_log(log):
-    LOG_FILE.write_text(json.dumps(log, indent=2), encoding="utf-8")
+    LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    payload = json.dumps(log, indent=2)
+    tmp_name = None
+    try:
+        with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=LOG_FILE.parent, delete=False) as tmp:
+            tmp.write(payload)
+            tmp.flush()
+            os.fsync(tmp.fileno())
+            tmp_name = tmp.name
+        os.replace(tmp_name, LOG_FILE)
+    finally:
+        if tmp_name and os.path.exists(tmp_name):
+            os.unlink(tmp_name)
 
 
 def add_plant(log, crop_id, nickname, sown):
@@ -82,12 +96,23 @@ def add_checkin(log, plant_id, stage_seen, note, when=None, photo=None, watered=
 
 def save_photo(data, suffix):
     """Save an uploaded photo under photos/ and return its file name."""
+    from PIL import Image, ImageOps
+
     suffix = suffix.lower()
     if suffix not in (".jpg", ".jpeg", ".png"):
         suffix = ".jpg"
     PHOTO_DIR.mkdir(exist_ok=True)
     name = f"{uuid.uuid4().hex[:10]}{suffix}"
-    (PHOTO_DIR / name).write_bytes(data)
+    img = ImageOps.exif_transpose(Image.open(io.BytesIO(data)))
+    img.thumbnail((1600, 1600))
+    out = io.BytesIO()
+    if suffix in (".jpg", ".jpeg"):
+        if img.mode not in ("RGB", "L"):
+            img = img.convert("RGB")
+        img.save(out, "JPEG", quality=85, optimize=True, exif=b"")
+    else:
+        img.save(out, "PNG")
+    (PHOTO_DIR / name).write_bytes(out.getvalue())
     return name
 
 
