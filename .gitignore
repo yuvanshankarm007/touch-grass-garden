@@ -1,0 +1,7 @@
+__pycache__/
+garden_log.json
+weather_cache.json
+voiceover.mp3
+.env
+.pytest_cache/
+photos/

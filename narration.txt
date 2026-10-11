@@ -1,0 +1,11 @@
+Most apps want you to open them every day. Touch Grass Garden wants the opposite.
+
+I sowed [CROP] on [DATE], and this is my card for today. It tells me the best time to go outside, any weather alerts, and one thing to look for at my plant. It's written by Gemma, running locally on my laptop through Ollama. [NO INTERNET SENTENCE - say what you actually saw when wifi was off.]
+
+Then I closed the laptop and went outside. [ONE SENTENCE ABOUT WHAT YOU REALLY SAW AT THE PLANT.]
+
+Back inside, I log what I saw. The streak only counts days I checked a real plant, so opening the app earns nothing.
+
+Open-weight models made this possible. My plant notes and location stay on my device, the core advice works without a signal, and it costs nothing to run.
+
+This is Touch Grass Garden.

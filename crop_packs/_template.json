@@ -1,0 +1,24 @@
+{
+  "_README": "Copy this file to crop_packs/<your-region>.json (no leading underscore) and fill in crops grown in YOUR area. Crops with the same id as a built-in crop replace it. Every crop needs all the keys below. 'template' must be one of: fruiting, leafy, root, flower (or define your own under stage_templates). Have a local grower or agricultural extension office check your data.",
+  "name": "Example regional pack",
+  "crops": [
+    {
+      "id": "example_crop",
+      "name": "Example crop",
+      "template": "leafy",
+      "sow_months": [1, 2],
+      "days_to_harvest": 40,
+      "sun": "Partial sun",
+      "water": "Keep soil evenly moist",
+      "soil": "Loose, well-drained",
+      "method": "Direct sow in rows",
+      "temp_min": 5,
+      "temp_max": 30,
+      "water_every_days": 2,
+      "problems": [
+        {"sign": "What you might see", "action": "What to do about it"},
+        {"sign": "Another sign", "action": "Another action"}
+      ]
+    }
+  ]
+}

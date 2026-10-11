@@ -1,0 +1,533 @@
+{
+  "note": "Starter data tuned for warm/subtropical climates. Edit sow_months, temps, water_every_days and problems for your region - the app only trusts this file. Problem tips are general starter advice; confirm with a local agricultural extension service.",
+  "stage_templates": {
+    "fruiting": [
+      {
+        "name": "Sown",
+        "at": 0.0,
+        "look_for": "Soil is moist, not waterlogged. Nothing visible yet."
+      },
+      {
+        "name": "Germinated",
+        "at": 0.08,
+        "look_for": "Tiny green shoots breaking the soil. Count how many seeds came up."
+      },
+      {
+        "name": "True leaves",
+        "at": 0.25,
+        "look_for": "Second set of leaves (shaped like the adult plant). Thin crowded seedlings."
+      },
+      {
+        "name": "Flowering",
+        "at": 0.55,
+        "look_for": "Small flower buds or open flowers. Look for bees visiting."
+      },
+      {
+        "name": "Fruit setting",
+        "at": 0.75,
+        "look_for": "Tiny fruits forming where flowers dropped. Check leaves for pests."
+      },
+      {
+        "name": "Harvest",
+        "at": 1.0,
+        "look_for": "Fruit is full size and colour. Pick gently."
+      }
+    ],
+    "leafy": [
+      {
+        "name": "Sown",
+        "at": 0.0,
+        "look_for": "Soil is moist and cool. Nothing visible yet."
+      },
+      {
+        "name": "Germinated",
+        "at": 0.12,
+        "look_for": "Tiny green shoots. Keep soil damp."
+      },
+      {
+        "name": "Leafy growth",
+        "at": 0.5,
+        "look_for": "Several full leaves. Check undersides for insects."
+      },
+      {
+        "name": "Harvest",
+        "at": 1.0,
+        "look_for": "Leaves are full size. Cut outer leaves first."
+      }
+    ],
+    "root": [
+      {
+        "name": "Sown",
+        "at": 0.0,
+        "look_for": "Soil is loose and moist. Nothing visible yet."
+      },
+      {
+        "name": "Germinated",
+        "at": 0.1,
+        "look_for": "Feathery green tops appearing in rows."
+      },
+      {
+        "name": "Thinning",
+        "at": 0.3,
+        "look_for": "Crowded tops - thin so roots have room."
+      },
+      {
+        "name": "Root swelling",
+        "at": 0.7,
+        "look_for": "Shoulder of the root visible at soil level."
+      },
+      {
+        "name": "Harvest",
+        "at": 1.0,
+        "look_for": "Roots are full size. Loosen soil and pull gently."
+      }
+    ],
+    "flower": [
+      {
+        "name": "Sown",
+        "at": 0.0,
+        "look_for": "Soil is moist. Nothing visible yet."
+      },
+      {
+        "name": "Germinated",
+        "at": 0.1,
+        "look_for": "Tiny green shoots with two round seed leaves."
+      },
+      {
+        "name": "True leaves",
+        "at": 0.3,
+        "look_for": "Frilly adult leaves. Pinch the tip for a bushier plant."
+      },
+      {
+        "name": "Buds",
+        "at": 0.6,
+        "look_for": "Flower buds forming. Look for pollinators."
+      },
+      {
+        "name": "Blooming",
+        "at": 1.0,
+        "look_for": "Open flowers. Pick regularly to keep it blooming."
+      }
+    ]
+  },
+  "crops": [
+    {
+      "id": "tomato",
+      "name": "Tomato",
+      "template": "fruiting",
+      "sow_months": [
+        6,
+        7,
+        8,
+        10,
+        11
+      ],
+      "days_to_harvest": 85,
+      "sun": "6-8 h full sun",
+      "water": "Even moisture, water at the base",
+      "soil": "Rich, well-drained loam",
+      "method": "Containers or raised beds with a stake or cage; mulch to hold moisture",
+      "temp_min": 12,
+      "temp_max": 35,
+      "water_every_days": 2,
+      "problems": [
+        {
+          "sign": "Lower leaves turning yellow",
+          "action": "Check watering - too much and too little both cause it. Remove badly yellowed leaves and keep leaves dry when watering."
+        },
+        {
+          "sign": "Tiny insects or sticky leaves",
+          "action": "Likely aphids or whiteflies. Spray them off with water and check leaf undersides daily."
+        }
+      ]
+    },
+    {
+      "id": "chilli",
+      "name": "Chilli",
+      "template": "fruiting",
+      "sow_months": [
+        6,
+        7,
+        10,
+        11
+      ],
+      "days_to_harvest": 90,
+      "sun": "6 h full sun",
+      "water": "Moderate, let top soil dry between waterings",
+      "soil": "Well-drained, slightly acidic",
+      "method": "Containers work well; pinch the first flowers for a bushier plant",
+      "temp_min": 15,
+      "temp_max": 36,
+      "water_every_days": 3,
+      "problems": [
+        {
+          "sign": "Leaves curling or crinkled",
+          "action": "Can be heat stress, thrips or mites. Check leaf undersides, water in the morning and shade in extreme heat."
+        },
+        {
+          "sign": "Flowers dropping without fruit",
+          "action": "Often heat or uneven watering. Keep watering steady and avoid over-fertilising."
+        }
+      ]
+    },
+    {
+      "id": "brinjal",
+      "name": "Brinjal (Eggplant)",
+      "template": "fruiting",
+      "sow_months": [
+        6,
+        7,
+        10,
+        11
+      ],
+      "days_to_harvest": 100,
+      "sun": "6-8 h full sun",
+      "water": "Regular, deep watering",
+      "soil": "Rich loam with compost",
+      "method": "Raised beds with mulch; stake once fruits get heavy",
+      "temp_min": 15,
+      "temp_max": 35,
+      "water_every_days": 2,
+      "problems": [
+        {
+          "sign": "Holes in leaves",
+          "action": "Look for beetles or caterpillars and pick them off by hand in the morning."
+        },
+        {
+          "sign": "Wilting even though soil is moist",
+          "action": "Could be a disease. Remove the affected plant (do not compost it) to protect neighbours, and rotate the bed next season."
+        }
+      ]
+    },
+    {
+      "id": "okra",
+      "name": "Okra",
+      "template": "fruiting",
+      "sow_months": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "days_to_harvest": 55,
+      "sun": "Full sun",
+      "water": "Regular, tolerates some heat",
+      "soil": "Well-drained, warm soil",
+      "method": "Direct sow in rows; soak seeds overnight first",
+      "temp_min": 18,
+      "temp_max": 40,
+      "water_every_days": 3,
+      "problems": [
+        {
+          "sign": "Yellow, mottled leaves",
+          "action": "Can be a viral disease spread by whiteflies. Remove badly affected plants, control whiteflies and avoid replanting okra in the same spot."
+        },
+        {
+          "sign": "Pods turning woody",
+          "action": "Harvest pods while still tender - leaving them on slows new pods."
+        }
+      ]
+    },
+    {
+      "id": "cucumber",
+      "name": "Cucumber",
+      "template": "fruiting",
+      "sow_months": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "days_to_harvest": 60,
+      "sun": "6-8 h sun",
+      "water": "Frequent, steady moisture",
+      "soil": "Rich, well-drained",
+      "method": "Trellis it vertically to save space and keep fruit clean",
+      "temp_min": 16,
+      "temp_max": 36,
+      "water_every_days": 2,
+      "problems": [
+        {
+          "sign": "White powder on leaves",
+          "action": "Likely powdery mildew. Water at the base, improve airflow and remove the worst leaves."
+        },
+        {
+          "sign": "Bitter or misshapen fruit",
+          "action": "Usually uneven watering or heat stress. Water evenly and pick fruit regularly."
+        }
+      ]
+    },
+    {
+      "id": "bottlegourd",
+      "name": "Bottle gourd",
+      "template": "fruiting",
+      "sow_months": [
+        2,
+        3,
+        4,
+        6,
+        7
+      ],
+      "days_to_harvest": 70,
+      "sun": "Full sun",
+      "water": "Regular, mulch to hold moisture",
+      "soil": "Loamy, rich in compost",
+      "method": "Grow on an overhead trellis; the vines are vigorous",
+      "temp_min": 18,
+      "temp_max": 38,
+      "water_every_days": 3,
+      "problems": [
+        {
+          "sign": "Flowers but no fruit",
+          "action": "Often a pollination issue. Look for bees, or hand-pollinate in the morning by moving pollen from a male flower to a female flower (the one with a tiny fruit at its base)."
+        },
+        {
+          "sign": "White powder on leaves",
+          "action": "Likely powdery mildew. Water at the base, improve airflow and remove the worst leaves."
+        }
+      ]
+    },
+    {
+      "id": "beans",
+      "name": "Beans",
+      "template": "fruiting",
+      "sow_months": [
+        6,
+        7,
+        8,
+        10,
+        11
+      ],
+      "days_to_harvest": 60,
+      "sun": "6 h sun",
+      "water": "Moderate, avoid wet leaves",
+      "soil": "Light, well-drained",
+      "method": "Direct sow beside a pole or string for climbing",
+      "temp_min": 14,
+      "temp_max": 34,
+      "water_every_days": 3,
+      "problems": [
+        {
+          "sign": "Yellow leaves and stunted plants",
+          "action": "Check drainage - waterlogged soil is a common cause. Avoid touching plants when leaves are wet."
+        },
+        {
+          "sign": "Chewed leaves, small insects",
+          "action": "Check undersides for aphids or caterpillars. Remove by hand or spray off with water."
+        }
+      ]
+    },
+    {
+      "id": "spinach",
+      "name": "Spinach",
+      "template": "leafy",
+      "sow_months": [
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "days_to_harvest": 40,
+      "sun": "Partial to full sun",
+      "water": "Keep soil evenly moist",
+      "soil": "Rich, loose soil",
+      "method": "Broadcast or row sow; succession-sow every 2 weeks",
+      "temp_min": 5,
+      "temp_max": 28,
+      "water_every_days": 2,
+      "problems": [
+        {
+          "sign": "Plant sending up a flower stalk (bolting)",
+          "action": "Usually heat or long days. Harvest what you can and sow again in a cooler period."
+        },
+        {
+          "sign": "Holes or tunnels in leaves",
+          "action": "Look for leaf miners or caterpillars. Remove affected leaves and pick off pests by hand."
+        }
+      ]
+    },
+    {
+      "id": "coriander",
+      "name": "Coriander",
+      "template": "leafy",
+      "sow_months": [
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "days_to_harvest": 45,
+      "sun": "Partial sun",
+      "water": "Light, frequent watering",
+      "soil": "Well-drained loam",
+      "method": "Crush seeds lightly before sowing; grows well in shallow pots",
+      "temp_min": 8,
+      "temp_max": 30,
+      "water_every_days": 2,
+      "problems": [
+        {
+          "sign": "Flowering and going to seed quickly",
+          "action": "Heat makes coriander bolt. Give afternoon shade and sow small batches every 2 weeks."
+        },
+        {
+          "sign": "Seedlings falling over at soil level",
+          "action": "Likely damping off from overwatering. Water less, improve drainage and avoid sowing too densely."
+        }
+      ]
+    },
+    {
+      "id": "methi",
+      "name": "Fenugreek (Methi)",
+      "template": "leafy",
+      "sow_months": [
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "days_to_harvest": 30,
+      "sun": "Partial to full sun",
+      "water": "Light, regular",
+      "soil": "Any loose soil",
+      "method": "Scatter seeds densely in a tray or bed; fast and beginner friendly",
+      "temp_min": 8,
+      "temp_max": 30,
+      "water_every_days": 2,
+      "problems": [
+        {
+          "sign": "Yellowing leaves",
+          "action": "Check for waterlogged soil and avoid overwatering."
+        },
+        {
+          "sign": "White powder on leaves",
+          "action": "Likely powdery mildew. Water at the base, improve airflow and remove the worst leaves."
+        }
+      ]
+    },
+    {
+      "id": "lettuce",
+      "name": "Lettuce",
+      "template": "leafy",
+      "sow_months": [
+        10,
+        11,
+        12,
+        1
+      ],
+      "days_to_harvest": 50,
+      "sun": "Partial sun, shade in afternoon",
+      "water": "Frequent light watering",
+      "soil": "Rich, moist, loose",
+      "method": "Shallow containers; harvest outer leaves to keep it producing",
+      "temp_min": 5,
+      "temp_max": 26,
+      "water_every_days": 2,
+      "problems": [
+        {
+          "sign": "Tall, bitter plants",
+          "action": "Heat is making it bolt. Give afternoon shade and harvest early."
+        },
+        {
+          "sign": "Holes in leaves, slime trails",
+          "action": "Slugs or snails. Check at dusk or dawn and remove by hand."
+        }
+      ]
+    },
+    {
+      "id": "radish",
+      "name": "Radish",
+      "template": "root",
+      "sow_months": [
+        9,
+        10,
+        11,
+        12,
+        1
+      ],
+      "days_to_harvest": 30,
+      "sun": "Full to partial sun",
+      "water": "Regular so roots stay tender",
+      "soil": "Loose, stone-free soil",
+      "method": "Direct sow in rows; the fastest crop for a first harvest",
+      "temp_min": 8,
+      "temp_max": 30,
+      "water_every_days": 2,
+      "problems": [
+        {
+          "sign": "Lots of leaf, small or no roots",
+          "action": "Often crowding, too much shade or too much nitrogen. Thin seedlings and give several hours of sun."
+        },
+        {
+          "sign": "Cracked or woody roots",
+          "action": "Uneven watering or leaving them too long. Water evenly and harvest on time."
+        }
+      ]
+    },
+    {
+      "id": "carrot",
+      "name": "Carrot",
+      "template": "root",
+      "sow_months": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "days_to_harvest": 80,
+      "sun": "Full sun",
+      "water": "Even moisture, never waterlogged",
+      "soil": "Deep, loose, sandy loam",
+      "method": "Direct sow in deep pots or beds; thin seedlings to 3 cm apart",
+      "temp_min": 8,
+      "temp_max": 30,
+      "water_every_days": 3,
+      "problems": [
+        {
+          "sign": "Forked or stunted roots",
+          "action": "Stones or hard soil. Loosen the soil deeper before the next sowing."
+        },
+        {
+          "sign": "Seedlings not coming up",
+          "action": "Carrot seeds are slow, often 1-3 weeks. Keep the surface moist and do not let a crust form."
+        }
+      ]
+    },
+    {
+      "id": "marigold",
+      "name": "Marigold",
+      "template": "flower",
+      "sow_months": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "days_to_harvest": 60,
+      "sun": "Full sun",
+      "water": "Moderate",
+      "soil": "Any well-drained soil",
+      "method": "Plant near vegetables; the flowers help deter some pests",
+      "temp_min": 12,
+      "temp_max": 36,
+      "water_every_days": 3,
+      "problems": [
+        {
+          "sign": "Webbing or speckled leaves",
+          "action": "Possible spider mites in hot, dry weather. Spray leaves with water, especially undersides."
+        },
+        {
+          "sign": "Few flowers",
+          "action": "Usually too little sun or too much fertiliser. Move to full sun and remove spent blooms."
+        }
+      ]
+    }
+  ]
+}
