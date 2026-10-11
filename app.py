@@ -173,6 +173,14 @@ for p in plants:
                     garden.add_checkin(log, p["id"], seen, note, photo=saved, watered=watered)
                     garden.save_log(log)
                     st.rerun()
+            confirm_delete = st.checkbox(
+                "Confirm delete this plant and all its check-ins",
+                key=f"confirm-delete-plant-{p['id']}",
+            )
+            if st.button("Delete plant", key=f"delete-plant-{p['id']}", disabled=not confirm_delete):
+                garden.delete_plant(log, p["id"])
+                garden.save_log(log)
+                st.rerun()
 
         with t_miles:
             for i, m in enumerate(ms):
@@ -192,6 +200,10 @@ for p in plants:
                 for r in reversed(rows):
                     extra = " - watered" if r["watered"] else ""
                     st.markdown(f"**{r['date']}** - {r['stage']}{extra}" + (f"  \n_{r['note']}_" if r["note"] else ""))
+                    if st.button("Delete check-in", key=f"delete-checkin-{r['id']}"):
+                        garden.delete_checkin(log, r["id"])
+                        garden.save_log(log)
+                        st.rerun()
                     path = garden.PHOTO_DIR / r["photo"] if r["photo"] else None
                     if path and path.exists():
                         st.image(str(path), width=180)

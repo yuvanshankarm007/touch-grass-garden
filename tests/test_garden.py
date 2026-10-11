@@ -203,3 +203,29 @@ def test_longest_streak_and_recap():
     recap = garden.season_recap(log, {"radish": crop}, TODAY)
     assert recap["days_outside"] == 5 and recap["plants"][0]["waterings"] == 5 and recap["plants"][0]["photos"] == 5
     assert "Days outside: 5" in garden.recap_text(recap)
+
+
+def test_load_log_adds_ids_to_old_checkins(tmp_path, monkeypatch):
+    import json
+    old_log = {
+        "plants": [{"id": "p1", "crop_id": "radish", "nickname": "Pot 1", "sown": "2026-10-01"}],
+        "checkins": [{"date": "2026-10-02", "plant_id": "p1", "stage_seen": "Sown", "note": ""}],
+    }
+    path = tmp_path / "garden_log.json"
+    path.write_text(json.dumps(old_log), encoding="utf-8")
+    monkeypatch.setattr(garden, "LOG_FILE", path)
+    loaded = garden.load_log()
+    assert loaded["checkins"][0]["id"]
+
+
+def test_delete_checkin_and_plant_update_streak_and_recap():
+    log, plant, crop = make_log()
+    for d in (0, 1, 2):
+        garden.add_checkin(log, plant["id"], "Germinated", "", TODAY - dt.timedelta(days=d))
+    assert garden.outdoor_streak(log, TODAY) == 3
+    checkin_id = log["checkins"][0]["id"]
+    assert garden.delete_checkin(log, checkin_id)
+    assert garden.outdoor_streak(log, TODAY) == 2
+    garden.delete_plant(log, plant["id"])
+    recap = garden.season_recap(log, {"radish": crop}, TODAY)
+    assert recap["plants"] == [] and recap["days_outside"] == 0

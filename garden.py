@@ -59,6 +59,8 @@ def load_log():
     log.setdefault("checkins", [])
     log.setdefault("settings", {})
     log["settings"].setdefault("weekly_goal", 4)
+    for c in log["checkins"]:
+        c.setdefault("id", uuid.uuid4().hex[:10])
     return log
 
 
@@ -75,9 +77,22 @@ def add_plant(log, crop_id, nickname, sown):
 def add_checkin(log, plant_id, stage_seen, note, when=None, photo=None, watered=False):
     when = when or dt.date.today()
     log["checkins"].append(
-        {"date": when.isoformat(), "plant_id": plant_id, "stage_seen": stage_seen, "note": note,
+        {"id": uuid.uuid4().hex[:10], "date": when.isoformat(), "plant_id": plant_id, "stage_seen": stage_seen, "note": note,
          "photo": photo, "watered": bool(watered)}
     )
+
+
+def delete_plant(log, plant_id):
+    log["plants"] = [p for p in log["plants"] if p["id"] != plant_id]
+    log["checkins"] = [c for c in log["checkins"] if c["plant_id"] != plant_id]
+
+
+def delete_checkin(log, checkin_id):
+    for i, c in enumerate(log["checkins"]):
+        if c.get("id") == checkin_id:
+            del log["checkins"][i]
+            return True
+    return False
 
 
 def save_photo(data, suffix):
@@ -348,7 +363,7 @@ def plant_timeline(log, plant, crop):
         if c["plant_id"] != plant["id"]:
             continue
         idx = names.index(c["stage_seen"]) if c["stage_seen"] in names else 0
-        rows.append({"date": c["date"], "stage": c["stage_seen"], "index": idx, "note": c.get("note", ""),
+        rows.append({"id": c.get("id"), "date": c["date"], "stage": c["stage_seen"], "index": idx, "note": c.get("note", ""),
                      "photo": c.get("photo"), "photo_note": c.get("photo_note"), "watered": c.get("watered", False)})
     return rows
 
