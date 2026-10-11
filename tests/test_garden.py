@@ -186,6 +186,46 @@ def test_prepare_image_shrinks_large_photos():
     assert max(out.size) <= 1024 and out.format == "JPEG"
 
 
+def test_save_log_writes_via_atomic_replace(tmp_path, monkeypatch):
+    import json
+
+    log_file = tmp_path / "garden_log.json"
+    monkeypatch.setattr(garden, "LOG_FILE", log_file)
+    calls = []
+    real_replace = garden.os.replace
+
+    def tracked_replace(src, dst):
+        calls.append((pathlib.Path(src), pathlib.Path(dst)))
+        real_replace(src, dst)
+
+    monkeypatch.setattr(garden.os, "replace", tracked_replace)
+    garden.save_log({"plants": [{"id": "x"}], "checkins": []})
+
+    assert json.loads(log_file.read_text(encoding="utf-8"))["plants"][0]["id"] == "x"
+    assert len(calls) == 1
+    src, dst = calls[0]
+    assert src.parent == log_file.parent and src != log_file and dst == log_file
+    assert not src.exists()
+
+
+def test_save_photo_strips_exif_and_resizes(monkeypatch, tmp_path):
+    import io
+    from PIL import Image
+
+    monkeypatch.setattr(garden, "PHOTO_DIR", tmp_path)
+    source = io.BytesIO()
+    exif = Image.Exif()
+    exif[315] = "unit-test"
+    Image.new("RGB", (3000, 2000), "blue").save(source, "JPEG", exif=exif)
+    raw = source.getvalue()
+    assert len(Image.open(io.BytesIO(raw)).getexif()) > 0
+
+    saved_name = garden.save_photo(raw, ".jpg")
+    saved = Image.open(tmp_path / saved_name)
+    assert max(saved.size) <= 1600
+    assert len(saved.getexif()) == 0
+
+
 def test_photo_note_saved_on_matching_checkin():
     log, plant, crop = make_log()
     garden.add_checkin(log, plant["id"], "Sown", "", TODAY, photo="a.jpg")
