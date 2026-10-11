@@ -61,6 +61,24 @@ def test_weather_alerts_are_rule_based():
     assert garden.weather_alerts(calm) == []
 
 
+def test_crop_weather_alerts_use_crop_temp_limits():
+    daily = {"time": ["a", "b"], "temperature_2m_max": [39, 28], "temperature_2m_min": [8, 12],
+             "precipitation_sum": [0, 0], "wind_speed_10m_max": [10, 10]}
+    crops = garden.load_crops()
+    tomato = crops["tomato"]
+    plants = [{"id": "1", "crop_id": "tomato", "nickname": "Tomato"}]
+    alerts = " ".join(garden.crop_weather_alerts(daily, plants, crops))
+    assert f"below Tomato's minimum ({tomato['temp_min']:.0f} C)" in alerts
+    assert f"above Tomato's maximum ({tomato['temp_max']:.0f} C)" in alerts
+
+
+def test_crop_weather_alerts_skip_when_inside_crop_limits():
+    daily = {"time": ["a"], "temperature_2m_max": [24], "temperature_2m_min": [12],
+             "precipitation_sum": [0], "wind_speed_10m_max": [10]}
+    plants = [{"id": "1", "crop_id": "tomato", "nickname": "Tomato"}]
+    assert garden.crop_weather_alerts(daily, plants, garden.load_crops()) == []
+
+
 def test_best_window_picks_longest_comfortable_run():
     hours = [f"2026-10-11T{h:02d}:00" for h in range(24)]
     temps = [20 if h < 9 else 36 for h in range(24)]  # comfortable until 09:00, then too hot

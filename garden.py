@@ -209,6 +209,29 @@ def weather_alerts(daily):
     return alerts
 
 
+def crop_weather_alerts(daily, plants, crops):
+    """Per-crop temperature alerts for today and tomorrow based on temp_min/temp_max."""
+    alerts = []
+    for i, label in enumerate(["Today", "Tomorrow"]):
+        if i >= len(daily["time"]):
+            break
+        tmax, tmin = daily["temperature_2m_max"][i], daily["temperature_2m_min"][i]
+        for plant in plants:
+            crop = crops.get(plant["crop_id"])
+            if not crop:
+                continue
+            name = plant.get("nickname") or crop["name"]
+            if tmin is not None and tmin < crop["temp_min"]:
+                alerts.append(
+                    f"{label} night {tmin:.0f} C is below {name}'s minimum ({crop['temp_min']:.0f} C). Cover it."
+                )
+            if tmax is not None and tmax > crop["temp_max"]:
+                alerts.append(
+                    f"{label} {tmax:.0f} C is above {name}'s maximum ({crop['temp_max']:.0f} C). Give shade."
+                )
+    return alerts
+
+
 def best_window(hourly, today):
     """Longest run of comfortable daylight hours today. Returns 'HH:00-HH:00' or None."""
     good = []
