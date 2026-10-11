@@ -130,6 +130,26 @@ def test_weekly_progress_counts_distinct_days_this_week():
     assert garden.weekly_progress(log, monday + dt.timedelta(days=4), goal=4) == (3, 4)
 
 
+def test_outdoor_calendar_grid_covers_12_weeks_and_marks_checkin_days():
+    log, plant, _ = make_log()
+    garden.add_checkin(log, plant["id"], "Sown", "", TODAY)
+    garden.add_checkin(log, plant["id"], "Sown", "", TODAY - dt.timedelta(days=1))
+    garden.add_checkin(log, plant["id"], "Sown", "", TODAY - dt.timedelta(days=1))  # duplicate same day
+    garden.add_checkin(log, plant["id"], "Sown", "", TODAY - dt.timedelta(weeks=13))  # outside the grid
+
+    grid = garden.outdoor_calendar_grid(log, TODAY)
+    by_date = {row["date"]: row["filled"] for row in grid}
+
+    assert len(grid) == 84
+    assert by_date[TODAY.isoformat()] == 1
+    assert by_date[(TODAY - dt.timedelta(days=1)).isoformat()] == 1
+    assert (TODAY - dt.timedelta(weeks=13)).isoformat() not in by_date
+
+
+def test_outdoor_calendar_grid_handles_non_positive_weeks():
+    assert garden.outdoor_calendar_grid({"checkins": []}, TODAY, weeks=0) == []
+
+
 def test_water_status_due_and_rain_note():
     log, plant, crop = make_log()  # radish, sown 10 days ago, never watered
     status = garden.water_status(log, plant, crop, TODAY)

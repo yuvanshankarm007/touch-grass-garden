@@ -201,6 +201,28 @@ def outdoor_streak(log, today):
     return n
 
 
+def outdoor_calendar_grid(log, today, weeks=12):
+    """Return a week-by-week grid of outdoor check-ins for calendar heatmaps."""
+    if weeks <= 0:
+        return []
+    days = set(checkin_dates(log))
+    start = today - dt.timedelta(days=today.weekday()) - dt.timedelta(weeks=weeks - 1)
+    names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    rows = []
+    for week in range(weeks):
+        week_start = start + dt.timedelta(weeks=week)
+        for weekday, name in enumerate(names):
+            day = week_start + dt.timedelta(days=weekday)
+            rows.append({
+                "date": day.isoformat(),
+                "week": week,
+                "week_label": week_start.strftime("%d %b"),
+                "weekday": name,
+                "filled": 1 if day in days else 0,
+            })
+    return rows
+
+
 def badges(log):
     total = len(checkin_dates(log))
     steps = [(1, "First steps outside"), (3, "3 days outside"), (7, "A week outside"), (30, "30 days outside")]
