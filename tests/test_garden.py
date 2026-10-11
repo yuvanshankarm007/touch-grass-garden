@@ -66,10 +66,29 @@ def test_crop_weather_alerts_use_crop_temp_limits():
              "precipitation_sum": [0, 0], "wind_speed_10m_max": [10, 10]}
     crops = garden.load_crops()
     tomato = crops["tomato"]
-    plants = [{"id": "1", "crop_id": "tomato", "nickname": "Tomato"}]
+    plants = [
+        {"id": "1", "crop_id": "tomato", "nickname": "Tomato A"},
+        {"id": "2", "crop_id": "tomato", "nickname": "Tomato B"},
+    ]
     alerts = " ".join(garden.crop_weather_alerts(daily, plants, crops))
+    assert "Tonight" in alerts and "Today night" not in alerts
+    assert "Tomato A, Tomato B" in alerts
     assert f"below Tomato's minimum ({tomato['temp_min']:.0f} C)" in alerts
     assert f"above Tomato's maximum ({tomato['temp_max']:.0f} C)" in alerts
+    assert alerts.count("above Tomato's maximum") == 1
+
+
+def test_crop_weather_alerts_hot_threshold_has_three_degree_buffer():
+    crops = garden.load_crops()
+    tomato = crops["tomato"]
+    daily = {"time": ["a", "b"],
+             "temperature_2m_max": [tomato["temp_max"] + 2, tomato["temp_max"] + 3],
+             "temperature_2m_min": [tomato["temp_min"], tomato["temp_min"]],
+             "precipitation_sum": [0, 0], "wind_speed_10m_max": [10, 10]}
+    plants = [{"id": "1", "crop_id": "tomato", "nickname": "Tomato"}]
+    alerts = garden.crop_weather_alerts(daily, plants, crops)
+    assert not any("Today" in a and "above" in a for a in alerts)
+    assert any("Tomorrow" in a and "above" in a for a in alerts)
 
 
 def test_crop_weather_alerts_skip_when_inside_crop_limits():

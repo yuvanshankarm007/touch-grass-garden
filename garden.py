@@ -252,22 +252,30 @@ def weather_alerts(daily):
 def crop_weather_alerts(daily, plants, crops):
     """Per-crop temperature alerts for today and tomorrow based on temp_min/temp_max."""
     alerts = []
+    crop_plants = {}
+    for plant in plants:
+        crop = crops.get(plant["crop_id"])
+        if not crop:
+            continue
+        crop_plants.setdefault(plant["crop_id"], {"crop": crop, "names": []})
+        crop_plants[plant["crop_id"]]["names"].append(plant.get("nickname") or crop["name"])
     for i, label in enumerate(["Today", "Tomorrow"]):
         if i >= len(daily["time"]):
             break
         tmax, tmin = daily["temperature_2m_max"][i], daily["temperature_2m_min"][i]
-        for plant in plants:
-            crop = crops.get(plant["crop_id"])
-            if not crop:
-                continue
-            name = plant.get("nickname") or crop["name"]
+        for info in crop_plants.values():
+            crop = info["crop"]
+            names = ", ".join(info["names"])
             if tmin is not None and tmin < crop["temp_min"]:
+                when = "Tonight" if label == "Today" else f"{label} night"
                 alerts.append(
-                    f"{label} night {tmin:.0f} C is below {name}'s minimum ({crop['temp_min']:.0f} C). Cover it."
+                    f"{when} {tmin:.0f} C is below {crop['name']}'s minimum ({crop['temp_min']:.0f} C) "
+                    f"for {names}. Cover it."
                 )
-            if tmax is not None and tmax > crop["temp_max"]:
+            if tmax is not None and tmax >= crop["temp_max"] + 3:
                 alerts.append(
-                    f"{label} {tmax:.0f} C is above {name}'s maximum ({crop['temp_max']:.0f} C). Give shade."
+                    f"{label} {tmax:.0f} C is above {crop['name']}'s maximum ({crop['temp_max']:.0f} C) "
+                    f"for {names}. Give shade."
                 )
     return alerts
 
